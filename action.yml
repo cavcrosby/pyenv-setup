@@ -1,0 +1,38 @@
+name: Pyenv Setup
+description: Installs pyenv
+runs:
+  using: composite
+  steps:
+    - name: Install pyenv dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install --assume-yes \
+          build-essential \
+          curl \
+          libbz2-dev \
+          libffi-dev \
+          liblzma-dev \
+          libncursesw5-dev \
+          libreadline-dev \
+          libsqlite3-dev \
+          libssl-dev \
+          libxml2-dev \
+          libxmlsec1-dev \
+          llvm \
+          make \
+          tk-dev \
+          wget \
+          xz-utils \
+          zlib1g-dev
+      shell: sh
+
+    - name: Set the PYENV_ROOT env var
+      run: |
+        echo "PYENV_ROOT=${RUNNER_TOOL_CACHE}/pyenv" >> "${GITHUB_ENV}"
+      shell: sh
+
+    - name: Install pyenv
+      run: |
+        curl "https://pyenv.run" | bash
+        echo "PATH=${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:${PATH}" >> "${GITHUB_ENV}"
+      shell: sh
